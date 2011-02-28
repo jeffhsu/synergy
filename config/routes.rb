@@ -1,7 +1,11 @@
 Synergy::Application.routes.draw do
   get "sessions/new"
 
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
   match '/signup', :to => 'users#new'
   match '/contact', :to => 'pages#contact'
   match '/about',   :to => 'pages#about'
@@ -13,7 +17,7 @@ Synergy::Application.routes.draw do
   match '/signout', :to => 'sessions#destroy'
 
   resources :microposts, :only => [:create, :destroy]
-
+resources :relationships, :only => [:create, :destroy]
   
   root :to => 'pages#home'
   
